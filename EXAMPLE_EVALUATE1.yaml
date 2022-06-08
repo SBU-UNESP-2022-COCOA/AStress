@@ -16,7 +16,15 @@ likelihood:
 
 params:
   g0_ppf:
-    value: 0.1
+    prior:
+      min: -1.0
+      max: 1.0
+    ref:
+      dist: norm
+      loc: 0.0
+      scale: 0.1
+    proposal: 0.1
+    latex: g0_{ppf}
   logA:
     prior:
       min: 1.61
@@ -87,21 +95,26 @@ params:
 theory:
   camb:
     path: ./external_modules/code/CAMB-AS
-    use_renames: True
     extra_args:
-      AccuracyBoost: 1.1
+      halofit_version: takahashi
+      dark_energy_model: ppf
+      DoLateRadTruncation: true
+      #lmax: 10000
+      lens_potential_accuracy: 1.05
+      AccuracyBoost: 2.0
+      lSampleBoost: 50.0
+      lAccuracyBoost: 1.0
       num_massive_neutrinos: 1
       nnu: 3.046
-      dark_energy_model: ppf
-      #shear_model: 1
-      #c_Gamma_ppf: 1.0 
+      accurate_massive_neutrino_transfers: false
 
 sampler:
   evaluate:
     override:
+      g0_ppf: 1.0
       logA: 3.0448
       ns: 0.96605
-      H0: 74.03
+      H0:  67.32
       omegabh2: 0.022383
       omegach2: 0.12011
       tau: 0.0543
